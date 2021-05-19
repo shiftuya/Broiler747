@@ -59,7 +59,7 @@ public class PathRepositoryImpl implements PathRepository {
                     
             	select rec.departure_airport,
             	f.arrival_airport,
-            	(rec.flight_path || (ad.city ->> 'en')),
+            	(rec.flight_path || (ad2.city ->> 'en')),
             	rec.scheduled_departure,
             	f.scheduled_arrival,
             	(rec.flight_numbers || f.flight_id) :: int[],
