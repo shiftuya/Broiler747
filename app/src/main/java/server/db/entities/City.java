@@ -1,8 +1,10 @@
 package server.db.entities;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class City {
-    private String name;
+    private final String name;
 }

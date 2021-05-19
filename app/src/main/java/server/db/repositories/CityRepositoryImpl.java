@@ -26,7 +26,7 @@ public class CityRepositoryImpl implements CityRepository {
     List<City> list = new ArrayList<>();
 
     while (resultSet.next()) {
-      list.add(new City() {{setName(resultSet.getString("city"));}});
+      list.add(new City(resultSet.getString("city")));
     }
 
     return list;
