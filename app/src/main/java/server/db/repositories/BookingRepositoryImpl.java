@@ -106,6 +106,7 @@ public class BookingRepositoryImpl implements BookingRepository {
 
       return id;
     } catch (Exception e) {
+      e.printStackTrace();
       connection.rollback();
     }
 

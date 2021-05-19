@@ -32,8 +32,6 @@ public class BookingRestController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
-        System.out.println(booking);
-
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("bookingId", bookingRepository.saveBooking(booking));
 
