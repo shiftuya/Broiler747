@@ -20,7 +20,7 @@ public class PathRepositoryImpl implements PathRepository {
   @Override
   @SneakyThrows
   public List<Path> getPaths(String departurePoint, String arrivalPoint, Date departureDate,
-      int connections) {
+                             int connections) {
     @Cleanup Connection connection = Util.getConnection();
     @Cleanup Statement statement = connection.createStatement();
 
@@ -33,19 +33,23 @@ public class PathRepositoryImpl implements PathRepository {
             	scheduled_arrival,
             	flight_numbers,
               departures,
-              arrivals)
+              arrivals,
+              arrival_city)
             as (
             	select departure_airport,
             	arrival_airport,
-            	array[ad.city],
+            	array[ad.city ->> 'en'],
             	scheduled_departure,
             	scheduled_arrival,
             	array[flight_id] :: int[],
               array[departure_airport]::char(3)[],
-             	array[arrival_airport]::char(3)[]
+             	array[arrival_airport]::char(3)[],
+             	ad2.city ->> 'en'
             	from flights
             	join airports_data ad
             	on departure_airport = ad.airport_code
+            	join airports_data ad2
+            	on arrival_airport = ad2.airport_code
             	where
             	(departure_airport = '%s' or ad.city ->> 'en' = '%s')
             	and scheduled_departure::date = to_date('%s', 'YYYY-MM-DD')
@@ -54,17 +58,19 @@ public class PathRepositoryImpl implements PathRepository {
                     
             	select rec.departure_airport,
             	f.arrival_airport,
-            	(rec.flight_path || ad.city),
+            	(rec.flight_path || (ad.city ->> 'en')),
             	rec.scheduled_departure,
             	f.scheduled_arrival,
             	(rec.flight_numbers || f.flight_id) :: int[],
             	(rec.departures || f.departure_airport)::char(3)[],
-             	(rec.arrivals || f.arrival_airport)::char(3)[]
+             	(rec.arrivals || f.arrival_airport)::char(3)[],
+             	ad.city ->> 'en'
             	from flights f
-            	join r rec on f.departure_airport = rec.arrival_airport
             	join airports_data ad on f.arrival_airport = ad.airport_code
+            	join airports_data ad2 on f.departure_airport = ad2.airport_code
+            	join r rec on ad2.city ->> 'en' = rec.arrival_city
             	where
-            	not ad.city = any(rec.flight_path)
+            	not ad.city ->> 'en' = any(rec.flight_path)
             	and f.scheduled_departure > rec.scheduled_arrival
             	and f.scheduled_departure - rec.scheduled_arrival < interval '1 day'
             	and cardinality(rec.flight_path) <= %d
