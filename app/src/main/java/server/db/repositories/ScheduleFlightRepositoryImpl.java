@@ -1,4 +1,4 @@
-package db.repositories;
+package server.db.repositories;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
-import db.entities.ScheduleFlight;
-import db.util.Util;
+import server.db.entities.ScheduleFlight;
+import server.db.util.Util;
+import org.springframework.stereotype.Component;
 
-public class FlightRepositoryImpl implements FlightRepository {
+@Component
+public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
 
   @Override
   @SneakyThrows

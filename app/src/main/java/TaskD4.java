@@ -1,4 +1,4 @@
-import db.util.Util;
+import server.db.util.Util;
 import java.sql.Connection;
 import java.sql.Statement;
 import lombok.Cleanup;

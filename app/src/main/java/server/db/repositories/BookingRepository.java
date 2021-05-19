@@ -1,6 +1,6 @@
-package db.repositories;
+package server.db.repositories;
 
-import db.entities.Booking;
+import server.db.entities.Booking;
 
 public interface BookingRepository {
 

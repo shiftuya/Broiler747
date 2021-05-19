@@ -1,12 +1,14 @@
-package db.repositories;
+package server.db.repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
-import db.entities.BoardingPass;
-import db.util.Util;
+import server.db.entities.BoardingPass;
+import server.db.util.Util;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BoardingPassRepositoryImpl implements BoardingPassRepository {
 
   @SneakyThrows

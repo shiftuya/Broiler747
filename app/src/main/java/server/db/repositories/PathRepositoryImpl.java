@@ -1,18 +1,20 @@
-package db.repositories;
+package server.db.repositories;
+
+import lombok.Cleanup;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
+import server.db.entities.Path;
+import server.db.util.Util;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import lombok.Cleanup;
-import lombok.SneakyThrows;
-import db.entities.Path;
-import db.util.Util;
 
+@Component
 public class PathRepositoryImpl implements PathRepository {
 
   @Override
@@ -78,15 +80,12 @@ public class PathRepositoryImpl implements PathRepository {
 
     while (resultSet.next()) {
       Path path = new Path();
-      path.setDeparture(((Timestamp) resultSet.getObject("scheduled_departure")));
-      path.setArrival(((Timestamp) resultSet.getObject("scheduled_arrival")));
-      // var fnos = (String[]) resultSet.getArray("flight_numbers").getArray();
       path.setFlights(Arrays.asList((Integer[]) resultSet.getArray("flight_numbers").getArray()));
 
       path.setDepartureAirports(
           Arrays.asList((String[]) resultSet.getArray("departures").getArray()));
 
-      path.setDepartureAirports(
+      path.setArrivalAirports(
           Arrays.asList((String[]) resultSet.getArray("arrivals").getArray()));
       res.add(path);
     }

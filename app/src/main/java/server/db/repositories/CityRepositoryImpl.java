@@ -1,28 +1,32 @@
-package db.repositories;
+package server.db.repositories;
+
+import server.db.entities.City;
+import server.db.util.Util;
+import lombok.Cleanup;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Cleanup;
-import lombok.SneakyThrows;
-import db.util.Util;
 
+@Component
 public class CityRepositoryImpl implements CityRepository {
 
   @Override
   @SneakyThrows
-  public List<String> getCities() {
+  public List<City> getCities() {
     @Cleanup Connection connection = Util.getConnection();
     @Cleanup Statement statement = connection.createStatement();
 
     @Cleanup var resultSet = statement.executeQuery("""
         SELECT DISTINCT city FROM airports_data;
         """);
-    List<String> list = new ArrayList<>();
+    List<City> list = new ArrayList<>();
 
     while (resultSet.next()) {
-      list.add(resultSet.getString("city"));
+      list.add(new City() {{setName(resultSet.getString("city"));}});
     }
 
     return list;

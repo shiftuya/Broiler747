@@ -1,6 +1,6 @@
-package db.repositories;
+package server.db.repositories;
 
-import db.entities.BoardingPass;
+import server.db.entities.BoardingPass;
 
 public interface BoardingPassRepository {
   BoardingPass generateBoardingPass(String ticketNo, int flightId);

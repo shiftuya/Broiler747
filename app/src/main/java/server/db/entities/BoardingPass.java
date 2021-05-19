@@ -1,4 +1,4 @@
-package db.entities;
+package server.db.entities;
 
 import lombok.Data;
 

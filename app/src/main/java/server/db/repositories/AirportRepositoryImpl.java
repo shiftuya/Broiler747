@@ -1,4 +1,4 @@
-package db.repositories;
+package server.db.repositories;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
-import db.entities.Airport;
-import db.util.Util;
+import server.db.entities.Airport;
+import server.db.util.Util;
 import org.postgresql.geometric.PGpoint;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AirportRepositoryImpl implements AirportRepository {
 
   @Override

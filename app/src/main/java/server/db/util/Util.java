@@ -1,4 +1,4 @@
-package db.util;
+package server.db.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 public class Util {
   static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/demo";
   static final String DB_USER = "postgres";
-  static final String DB_PASSWORD = "1111111111a";
+  static final String DB_PASSWORD = "admin";
 
   @SneakyThrows
   public static Connection getConnection() {

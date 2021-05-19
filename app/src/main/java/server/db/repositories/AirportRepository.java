@@ -1,7 +1,7 @@
-package db.repositories;
+package server.db.repositories;
 
 import java.util.List;
-import db.entities.Airport;
+import server.db.entities.Airport;
 
 public interface AirportRepository {
   List<Airport> getAirports();

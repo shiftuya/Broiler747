@@ -1,4 +1,4 @@
-package db.repositories;
+package server.db.repositories;
 
 import com.google.gson.Gson;
 import java.sql.Connection;
@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
-import db.entities.Booking;
-import db.util.Util;
+import server.db.entities.Booking;
+import server.db.util.Util;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookingRepositoryImpl implements BookingRepository {
 
   @Override

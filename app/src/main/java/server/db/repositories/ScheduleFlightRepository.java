@@ -1,9 +1,9 @@
-package db.repositories;
+package server.db.repositories;
 
 import java.util.List;
-import db.entities.ScheduleFlight;
+import server.db.entities.ScheduleFlight;
 
-public interface FlightRepository {
+public interface ScheduleFlightRepository {
   List<ScheduleFlight> getArrivingFlights(String airport);
   List<ScheduleFlight> getDepartingFlights(String airport);
 }
