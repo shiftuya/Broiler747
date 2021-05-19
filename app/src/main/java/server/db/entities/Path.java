@@ -10,6 +10,7 @@ public class Path {
   List<Integer> flights;
   List<String> departureAirports;
   List<String> arrivalAirports;
+  List<Airport> points;
 
   public void validate() throws InvalidObjectException {
       if (flights == null)

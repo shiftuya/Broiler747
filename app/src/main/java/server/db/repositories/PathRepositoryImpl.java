@@ -3,6 +3,7 @@ package server.db.repositories;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+import server.db.entities.Airport;
 import server.db.entities.Path;
 import server.db.util.Util;
 
@@ -93,6 +94,17 @@ public class PathRepositoryImpl implements PathRepository {
 
       path.setArrivalAirports(
           Arrays.asList((String[]) resultSet.getArray("arrivals").getArray()));
+
+      List<Airport> points = new ArrayList<>();
+      String[] cities = (String[]) resultSet.getArray("flight_path").getArray();
+      String[] airports = (String[]) resultSet.getArray("departures").getArray();
+      for (int i = 0; i < cities.length; ++i) {
+        points.add(new Airport(airports[i], cities[i]));
+      }
+
+      points.add(new Airport(resultSet.getString("arrival_airport"), resultSet.getString("arrival_city")));
+      path.setPoints(points);
+
       res.add(path);
     }
 
