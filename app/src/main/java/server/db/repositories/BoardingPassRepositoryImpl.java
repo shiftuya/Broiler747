@@ -37,21 +37,25 @@ public class BoardingPassRepositoryImpl implements BoardingPassRepository {
         System.out.println("Flight id: " + flightId);
 
         @Cleanup PreparedStatement statement = connection.prepareStatement(String.format("""
-              insert into boarding_passes1 (ticket_no, flight_id, boarding_no, seat_no) values (
-              	'%s',
-              	%d,
-              	(select boarding_no from boarding_passes1
-              where flight_id = %d
-              order by boarding_no desc
-              limit 1
-              ) + 1,
-              	(select seat_no from seats
-              where aircraft_code = (select aircraft_code from flights where flight_id = %d limit 1) and fare_conditions =
-              (select fare_conditions from ticket_flights1 tf where tf.ticket_no = '%s' limit 1)
-              and not exists (
-              select 1 from boarding_passes1 b where seats.seat_no = b.seat_no
-              and flight_id = '%s') limit 1)
-              )""", ticketNo, flightId, flightId, flightId, ticketNo, flightId),
+                insert into boarding_passes1 (ticket_no, flight_id, boarding_no, seat_no) values (
+                	'%s',
+                	%d,
+                	(select case
+                         when (select count(boarding_no) from boarding_passes1 where flight_id = %d) = 0
+                         then 1
+                         else (select boarding_no + 1 from boarding_passes1
+                                       where flight_id = %d
+                                       order by boarding_no desc
+                                       limit 1)
+                         end
+                ),
+                	(select seat_no from seats
+                where aircraft_code = (select aircraft_code from flights where flight_id = %d limit 1) and fare_conditions =
+                (select fare_conditions from ticket_flights1 tf where tf.ticket_no = '%s' limit 1)
+                and not exists (
+                select 1 from boarding_passes1 b where seats.seat_no = b.seat_no
+                and flight_id = '%s') limit 1)
+                )""", ticketNo, flightId, flightId, flightId, flightId, ticketNo, flightId),
             new String[]{"boarding_no", "seat_no"});
 
         statement.executeUpdate();
