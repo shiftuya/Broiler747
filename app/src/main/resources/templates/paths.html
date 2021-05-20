@@ -16,12 +16,6 @@
         <input id="passenger-phone" type="text">
         <label>Email:</label>
         <input id="passenger-email" type="text">
-        <label>Fare conditions:</label>
-        <select id="fare-conditions">
-            <option value="Economy">Economy</option>
-            <option value="Comfort">Comfort</option>
-            <option value="Business">Business</option>
-        </select>
     </div>
         <form>
             <label>From:</label>
@@ -32,6 +26,12 @@
             <input id="departure-date" type="date">
             <label>Max connections:</label>
             <input id="max-connections" type="number" min="0" max="3" value="0">
+            <label>Fare conditions:</label>
+            <select id="fare-conditions">
+                <option value="Economy">Economy</option>
+                <option value="Comfort">Comfort</option>
+                <option value="Business">Business</option>
+            </select>
             <input id="find-paths" type="submit" value="Find paths">
         </form>
         <h1 id="paths-number"></h1>

@@ -47,7 +47,7 @@ public class PathRepositoryImpl implements PathRepository {
               array[departure_airport]::char(3)[],
              	array[arrival_airport]::char(3)[],
              	ad2.city ->> 'en',
-             	(select amount from light_price where departure_airport = ad.airport_code and arrival_airport = ad2.airport_code and fare_conditions = '%s')
+             	(select amount from flight_price where departure_airport = ad.airport_code and arrival_airport = ad2.airport_code and fare_conditions = '%s')
             	from flights
             	join airports_data ad
             	on departure_airport = ad.airport_code

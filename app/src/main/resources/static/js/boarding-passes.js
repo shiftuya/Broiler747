@@ -1,4 +1,4 @@
-let bookingCode = prompt('Enter your booking code:');
+let bookingCode = prompt('Enter your ticket number:');
 
 if (bookingCode) {
     fetch('/boardingPasses?ticketNo=' + bookingCode, {method: 'GET'})

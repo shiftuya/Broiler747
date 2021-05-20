@@ -2,6 +2,7 @@ let citiesFromSelect = document.getElementById('cities-from');
 let citiesToSelect = document.getElementById('cities-to');
 let departureDateInput = document.getElementById('departure-date');
 let maxConnectionsInput = document.getElementById('max-connections');
+let fareConditionsSelect = document.getElementById('fare-conditions');
 
 let pathsNumberH1 = document.getElementById('paths-number');
 let pathsOl = document.getElementById('paths');
@@ -10,7 +11,6 @@ let passengerIdInput = document.getElementById('passenger-id');
 let passengerNameInput = document.getElementById('passenger-name');
 let passengerPhoneInput = document.getElementById('passenger-phone');
 let passengerEmailInput = document.getElementById('passenger-email');
-let fareConditionsSelect = document.getElementById('fare-conditions');
 
 fetch('/cities', {method: 'GET'})
     .then(response => response.json())
@@ -24,7 +24,8 @@ document.getElementById('find-paths').onclick = function() {
     fetch('/paths?departurePoint=' + citiesFromSelect.value +
                 '&arrivalPoint=' + citiesToSelect.value +
                 '&departureDate=' + departureDateInput.value +
-                '&connections=' + maxConnectionsInput.value,
+                '&connections=' + maxConnectionsInput.value +
+                '&fareConditions=' + fareConditionsSelect.value,
             {method: 'GET'})
         .then(response => response.json())
         .then(paths => {
@@ -37,7 +38,7 @@ document.getElementById('find-paths').onclick = function() {
                 }
                 li.innerHTML += ' [' + (path.points.length - 2) + ' connections]';
                 let buyButton = document.createElement('button');
-                buyButton.innerHTML = 'Buy ticket';
+                buyButton.innerHTML = 'Buy ticket for $' + path.price;
                 buyButton.onclick = function() {
                     delete path.points;
                     let booking = {
@@ -52,7 +53,7 @@ document.getElementById('find-paths').onclick = function() {
                     };
                     fetch('/booking', {method: 'POST', body: JSON.stringify(booking)})
                         .then(response => response.json())
-                        .then(booking => alert('Your booking code: ' + booking.bookingId));
+                        .then(booking => alert('Your ticket number: ' + booking.bookingId));
                 }
                 li.appendChild(buyButton);
                 pathsOl.appendChild(li);
