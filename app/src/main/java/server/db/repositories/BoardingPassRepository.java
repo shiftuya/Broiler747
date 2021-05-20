@@ -2,6 +2,8 @@ package server.db.repositories;
 
 import server.db.entities.BoardingPass;
 
+import java.util.List;
+
 public interface BoardingPassRepository {
-  BoardingPass generateBoardingPass(String ticketNo, int flightId);
+  List<BoardingPass> generateBoardingPasses(String ticketNo);
 }

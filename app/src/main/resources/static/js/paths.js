@@ -52,7 +52,7 @@ document.getElementById('find-paths').onclick = function() {
                     };
                     fetch('/booking', {method: 'POST', body: JSON.stringify(booking)})
                         .then(response => response.json())
-                        .then(booking => alert(booking.bookingId));
+                        .then(booking => alert('Your booking code: ' + booking.bookingId));
                 }
                 li.appendChild(buyButton);
                 pathsOl.appendChild(li);

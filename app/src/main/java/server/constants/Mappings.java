@@ -6,5 +6,5 @@ public class Mappings {
     public static final String SCHEDULE_FLIGHTS = "scheduleFlights";
     public static final String PATHS = "paths";
     public static final String BOOKING = "booking";
-    public static final String BOARDING_PASS = "boardingPass";
+    public static final String BOARDING_PASSES = "boardingPasses";
 }

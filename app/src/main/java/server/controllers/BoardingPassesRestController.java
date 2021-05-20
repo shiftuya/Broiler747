@@ -11,12 +11,14 @@ import server.db.repositories.BoardingPassRepository;
 
 @RestController
 @RequestMapping(value = "/", produces = "application/json")
-public class BoardingPassRestController {
+public class BoardingPassesRestController {
 
     @Autowired private BoardingPassRepository boardingPassRepository;
 
-    @GetMapping(Mappings.BOARDING_PASS)
-    public String getBoardingPass(@RequestParam String ticketNo, @RequestParam int flightId) {
-        return new Gson().toJson(boardingPassRepository.generateBoardingPass(ticketNo, flightId));
+    @GetMapping(Mappings.BOARDING_PASSES)
+    public String getBoardingPasses(@RequestParam String ticketNo) {
+        System.out.println(ticketNo);
+        System.out.println(boardingPassRepository.generateBoardingPasses(ticketNo).size());
+        return new Gson().toJson(boardingPassRepository.generateBoardingPasses(ticketNo));
     }
 }

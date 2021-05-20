@@ -3,13 +3,25 @@ package server.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
+import server.constants.Mappings;
 
 @Controller
 @RequestMapping(value = "/", produces = "text/html")
 public class MainController {
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public RedirectView main() {
+        return new RedirectView(Mappings.PATHS);
+    }
+
+    @GetMapping(Mappings.PATHS)
+    public String getPaths() {
+        return "paths";
+    }
+
+    @GetMapping(Mappings.BOARDING_PASSES)
+    public String getBoardingPasses() {
+        return "boarding-passes";
     }
 }
