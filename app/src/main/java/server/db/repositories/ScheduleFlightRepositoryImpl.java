@@ -15,7 +15,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
 
   @Override
   @SneakyThrows
-  public List<ScheduleFlight> getArrivingFlights(String airport) {
+  public List<ScheduleFlight> getArrivingFlights(String airport, int dayOfWeek) {
     @Cleanup Connection connection = Util.getConnection();
     @Cleanup Statement statement = connection.createStatement();
 
@@ -28,11 +28,12 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         departure_airport
         from flights
         where arrival_airport = '%s'
+        and extract (ISODOW from scheduled_arrival) = %d
         group by flight_no,
         scheduled_arrival, departure_airport
         order by flight_no, dow
         ;
-        """, airport));
+        """, airport, dayOfWeek));
     List<ScheduleFlight> list = new ArrayList<>();
 
     while (resultSet.next()) {
@@ -51,7 +52,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
 
   @Override
   @SneakyThrows
-  public List<ScheduleFlight> getDepartingFlights(String airport) {
+  public List<ScheduleFlight> getDepartingFlights(String airport, int dayOfWeek) {
     @Cleanup Connection connection = Util.getConnection();
     @Cleanup Statement statement = connection.createStatement();
 
@@ -64,11 +65,12 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         arrival_airport
         from flights
         where departure_airport = '%s'
+        and scheduled_departure = %d
         group by flight_no,
         scheduled_departure, arrival_airport
         order by flight_no, dow
         ;
-        """, airport));
+        """, airport, dayOfWeek));
     List<ScheduleFlight> list = new ArrayList<>();
 
     while (resultSet.next()) {
