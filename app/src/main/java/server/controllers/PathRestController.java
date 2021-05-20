@@ -26,9 +26,10 @@ public class PathRestController {
     public String getPaths(@RequestParam String departurePoint,
                            @RequestParam String arrivalPoint,
                            @RequestParam String departureDate,
-                           @RequestParam int connections) {
+                           @RequestParam int connections,
+                           @RequestParam String fareConditions) {
 
         return new Gson().toJson(pathRepository.getPaths(
-            departurePoint, arrivalPoint, FORMAT.parse(departureDate), connections));
+            departurePoint, arrivalPoint, FORMAT.parse(departureDate), connections, fareConditions));
     }
 }

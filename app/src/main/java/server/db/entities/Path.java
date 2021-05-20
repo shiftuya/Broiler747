@@ -11,6 +11,7 @@ public class Path {
   List<String> departureAirports;
   List<String> arrivalAirports;
   List<Airport> points;
+  int price;
 
   public void validate() throws InvalidObjectException {
       if (flights == null)
