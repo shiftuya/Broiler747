@@ -54,6 +54,8 @@ public class PathRepositoryImpl implements PathRepository {
             	where
             	(departure_airport = '%s' or ad.city ->> 'en' = '%s')
             	and scheduled_departure::date = to_date('%s', 'YYYY-MM-DD')
+            	and status = 'Scheduled'
+            	and (select count(*) from flight_price where departure_airport = ad.airport_code and arrival_airport = ad2.airport_code ) > 0
                     
             	union all
                     
@@ -75,6 +77,7 @@ public class PathRepositoryImpl implements PathRepository {
             	and f.scheduled_departure > rec.scheduled_arrival
             	and f.scheduled_departure - rec.scheduled_arrival < interval '1 day'
             	and cardinality(rec.flight_path) <= %d
+            	and (select count(*) from flight_price where departure_airport = ad2.airport_code and arrival_airport = ad.airport_code ) > 0
             ) select * from r
             join airports_data ad
             on arrival_airport = ad.airport_code
