@@ -25,7 +25,8 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         extract (HOUR from scheduled_arrival) as hour,
         extract (MINUTE from scheduled_arrival) as minute,
         extract (SECOND from scheduled_arrival) as second,
-        departure_airport
+        departure_airport,
+        (select city from airport_data where airport_code = departure_airport) as departure_city
         from flights
         where arrival_airport = '%s'
         and extract (ISODOW from scheduled_arrival) = %d
@@ -44,6 +45,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
       flight.setSecond(resultSet.getInt("second"));
       flight.setOtherAirport(resultSet.getString("departure_airport"));
       flight.setNo(resultSet.getString("flight_no"));
+      flight.setOtherCity(resultSet.getString("departure_city"));
       list.add(flight);
     }
 
@@ -62,7 +64,8 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         extract (HOUR from scheduled_departure) as hour,
         extract (MINUTE from scheduled_departure) as minute,
         extract (SECOND from scheduled_departure) as second,
-        arrival_airport
+        arrival_airport,
+        (select city from airport_data where airport_code = arrival_airport)
         from flights
         where departure_airport = '%s'
         and scheduled_departure = %d
@@ -81,6 +84,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
       flight.setSecond(resultSet.getInt("second"));
       flight.setOtherAirport(resultSet.getString("arrival_airport"));
       flight.setNo(resultSet.getString("flight_no"));
+      flight.setOtherCity(resultSet.getString("arrival_city"));
       list.add(flight);
     }
 

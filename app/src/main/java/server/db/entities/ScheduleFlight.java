@@ -10,4 +10,5 @@ public class ScheduleFlight {
   private int minute;
   private int second;
   private String otherAirport;
+  private String otherCity;
 }
