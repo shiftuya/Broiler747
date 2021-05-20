@@ -16,9 +16,12 @@ public class ScheduleFlightRestController {
     @Autowired private ScheduleFlightRepository scheduleFlightRepository;
 
     @GetMapping(Mappings.SCHEDULE_FLIGHTS)
-    public String getScheduleFlights(@RequestParam boolean arriving, @RequestParam String city) {
+    public String getScheduleFlights(@RequestParam boolean arriving,
+                                     @RequestParam String airport,
+                                     @RequestParam int day) {
+
         return new Gson().toJson(arriving ?
-            scheduleFlightRepository.getArrivingFlights(city) :
-            scheduleFlightRepository.getDepartingFlights(city));
+            scheduleFlightRepository.getArrivingFlights(airport, day) :
+            scheduleFlightRepository.getDepartingFlights(airport, day));
     }
 }

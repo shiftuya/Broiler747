@@ -15,6 +15,11 @@ public class MainController {
         return new RedirectView(Mappings.PATHS);
     }
 
+    @GetMapping(Mappings.SCHEDULE_FLIGHTS)
+    public String getScheduleFlights() {
+        return "schedule-flights";
+    }
+
     @GetMapping(Mappings.PATHS)
     public String getPaths() {
         return "paths";

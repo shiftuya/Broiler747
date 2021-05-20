@@ -26,7 +26,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         extract (MINUTE from scheduled_arrival) as minute,
         extract (SECOND from scheduled_arrival) as second,
         departure_airport,
-        (select city from airport_data where airport_code = departure_airport) as departure_city
+        (select city from airports_data where airport_code = departure_airport) as departure_city
         from flights
         where arrival_airport = '%s'
         and extract (ISODOW from scheduled_arrival) = %d
@@ -65,7 +65,7 @@ public class ScheduleFlightRepositoryImpl implements ScheduleFlightRepository {
         extract (MINUTE from scheduled_departure) as minute,
         extract (SECOND from scheduled_departure) as second,
         arrival_airport,
-        (select city from airport_data where airport_code = arrival_airport)
+        (select city from airports_data where airport_code = arrival_airport)
         from flights
         where departure_airport = '%s'
         and scheduled_departure = %d
