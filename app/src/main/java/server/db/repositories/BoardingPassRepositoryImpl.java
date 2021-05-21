@@ -15,28 +15,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class BoardingPassRepositoryImpl implements BoardingPassRepository {
 
-  @SneakyThrows
   @Override
+  @SneakyThrows
   public List<BoardingPass> generateBoardingPasses(String ticketNo) {
+    @Cleanup Connection connection = Util.getConnection();
 
-    try {
-
-      @Cleanup Connection connection = Util.getConnection();
-
-      @Cleanup Statement flightIdsStatement = connection.createStatement();
-      @Cleanup var flightIdsResultSet = flightIdsStatement.executeQuery(String.format("""
+    @Cleanup Statement flightIdsStatement = connection.createStatement();
+    @Cleanup var flightIdsResultSet = flightIdsStatement.executeQuery(String.format("""
         select flight_id from ticket_flights1
         where ticket_no = '%s';
         """, ticketNo));
 
-      List<BoardingPass> res = new ArrayList<>();
+    List<BoardingPass> res = new ArrayList<>();
 
-      while (flightIdsResultSet.next()) {
-        int flightId = flightIdsResultSet.getInt("flight_id");
+    while (flightIdsResultSet.next()) {
+      int flightId = flightIdsResultSet.getInt("flight_id");
 
-        System.out.println("Flight id: " + flightId);
+      System.out.println("Flight id: " + flightId);
 
-        @Cleanup PreparedStatement statement = connection.prepareStatement(String.format("""
+      @Cleanup PreparedStatement statement = connection.prepareStatement(String.format("""
                 insert into boarding_passes1 (ticket_no, flight_id, boarding_no, seat_no) values (
                 	'%s',
                 	%d,
@@ -56,27 +53,23 @@ public class BoardingPassRepositoryImpl implements BoardingPassRepository {
                 select 1 from boarding_passes1 b where seats.seat_no = b.seat_no
                 and flight_id = '%s') limit 1)
                 )""", ticketNo, flightId, flightId, flightId, flightId, ticketNo, flightId),
-            new String[]{"boarding_no", "seat_no"});
+          new String[]{"boarding_no", "seat_no"});
 
-        statement.executeUpdate();
+      statement.executeUpdate();
 
-        @Cleanup var resultSet = statement.getGeneratedKeys();
+      @Cleanup var resultSet = statement.getGeneratedKeys();
 
-        BoardingPass boardingPass = new BoardingPass();
-        if (resultSet.next()) {
-          boardingPass.setId(resultSet.getInt("boarding_no"));
-          boardingPass.setSeat(resultSet.getString("seat_no"));
-        } else {
-          return null; // exception?
-        }
-
-        res.add(boardingPass);
+      BoardingPass boardingPass = new BoardingPass();
+      if (resultSet.next()) {
+        boardingPass.setId(resultSet.getInt("boarding_no"));
+        boardingPass.setSeat(resultSet.getString("seat_no"));
+      } else {
+        return null; // exception?
       }
 
-      return res;
-    } catch (Exception e) {
-      e.printStackTrace();
+      res.add(boardingPass);
     }
-    return null;
+
+    return res;
   }
 }

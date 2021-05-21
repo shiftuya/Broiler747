@@ -12,7 +12,7 @@ public class MainController {
 
     @GetMapping("/")
     public RedirectView main() {
-        return new RedirectView(Mappings.PATHS);
+        return new RedirectView(Mappings.SCHEDULE_FLIGHTS);
     }
 
     @GetMapping(Mappings.SCHEDULE_FLIGHTS)
