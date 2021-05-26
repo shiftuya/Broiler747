@@ -14,11 +14,15 @@ let passengerEmailInput = document.getElementById('passenger-email');
 
 fetch('/cities', {method: 'GET'})
     .then(response => response.json())
-    .then(cities => cities.forEach(city => {
-        let value = JSON.parse(city.name).en;
-        citiesFromSelect.appendChild(createOption(value));
-        citiesToSelect.appendChild(createOption(value));
-    }));
+    .then(cities => {
+        cityNames = [];
+        cities.forEach(city => cityNames.push(JSON.parse(city.name).en));
+        cityNames.sort();
+        cityNames.forEach(cityName => {
+            citiesFromSelect.appendChild(createOption(cityName));
+            citiesToSelect.appendChild(createOption(cityName));
+        });
+    });
 
 document.getElementById('find-paths').onclick = function() {
     fetch('/paths?departurePoint=' + citiesFromSelect.value +
@@ -29,7 +33,8 @@ document.getElementById('find-paths').onclick = function() {
             {method: 'GET'})
         .then(response => response.json())
         .then(paths => {
-            pathsNumberH1.innerHTML = 'Found ' + paths.length + ' paths'
+            pathsNumberH1.innerHTML = 'Found ' + paths.length + ' paths';
+            pathsOl.innerHTML = '';
             paths.forEach(path => {
                 let li = document.createElement('li');
                 for (let i = 0; i < path.points.length; i++) {

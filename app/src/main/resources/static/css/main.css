@@ -10,3 +10,8 @@ input, select, button {
 	color: #5f94b7;
 	border: 1px solid rgba(0, 0, 0, 0.5);
 }
+
+a, a:visited {
+    margin-left: 10px;
+    color: #88C999;
+}

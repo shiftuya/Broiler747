@@ -7,16 +7,23 @@
         <link rel="stylesheet" href="/css/main.css">
     </head>
     <body>
-    <div>
-        <label>ID:</label>
-        <input id="passenger-id" type="text">
-        <label>Full Name:</label>
-        <input id="passenger-name" type="text">
-        <label>Phone:</label>
-        <input id="passenger-phone" type="text">
-        <label>Email:</label>
-        <input id="passenger-email" type="text">
-    </div>
+        <nav>
+            <a href="/scheduleFlights">Schedule Flights</a>
+            <a href="/paths">Paths</a>
+            <a href="/boardingPasses">Boarding Passes</a>
+        </nav>
+        <br>
+        <div>
+            <label>ID:</label>
+            <input id="passenger-id" type="text">
+            <label>Full Name:</label>
+            <input id="passenger-name" type="text">
+            <label>Phone:</label>
+            <input id="passenger-phone" type="text">
+            <label>Email:</label>
+            <input id="passenger-email" type="text">
+        </div>
+        <br>
         <form>
             <label>From:</label>
             <select id="cities-from"></select>
@@ -34,6 +41,7 @@
             </select>
             <input id="find-paths" type="submit" value="Find paths">
         </form>
+        <br>
         <h1 id="paths-number"></h1>
         <ol id="paths"></ol>
 

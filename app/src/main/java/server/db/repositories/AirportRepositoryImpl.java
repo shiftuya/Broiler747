@@ -38,8 +38,8 @@ public class AirportRepositoryImpl implements AirportRepository {
     return list;
   }
 
-  @SneakyThrows
   @Override
+  @SneakyThrows
   public List<Airport> getAirports(String city) {
     @Cleanup Connection connection = Util.getConnection();
     @Cleanup Statement statement = connection.createStatement();
